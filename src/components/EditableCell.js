@@ -1,12 +1,12 @@
 import { Table, Input, InputNumber, Popconfirm, Form } from 'antd';
 
 const FormItem = Form.Item;
-const EditableContext = React.createContext();
+const { Consumer, Provider} = React.createContext();
 
 const EditableRow = ({ form, index, ...props }) => (
-    <EditableContext.Provider value={form}>
+    <Provider value={form}>
       <tr {...props} />
-    </EditableContext.Provider>
+    </Provider>
   );
   
 const EditableFormRow = Form.create()(EditableRow);
@@ -31,7 +31,7 @@ class EditableCell extends React.Component {
       ...restProps
     } = this.props;
     return (
-      <EditableContext.Consumer>
+      <Consumer>
         {(form) => {
           const { getFieldDecorator } = form;
           return (
@@ -50,7 +50,7 @@ class EditableCell extends React.Component {
             </td>
           );
         }}
-      </EditableContext.Consumer>
+      </Consumer>
     );
   }
 }

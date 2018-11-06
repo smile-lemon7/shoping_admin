@@ -5,12 +5,67 @@ import { FormattedMessage } from 'umi/locale';
 import { routerRedux } from 'dva/router';
 import StandardTable from '@/components/StandardTable';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
-import {  EditableFormRow } from '@/components/EditableCell';
-import EditableCell from '@/components/EditableCell';
+// import {  EditableFormRow } from '@/components/EditableCell';
+// import EditableCell from '@/components/EditableCell';
 import styles from './index.less';
 
+// const FormItem = Form.Item;
+// const { Consumer } = React.createContext();
+
+
 const FormItem = Form.Item;
-const EditableContext = React.createContext();
+const { Consumer, Provider} = React.createContext();
+
+const EditableRow = ({ form, index, ...props }) => (
+    <Provider value={form}>
+      <tr {...props} />
+    </Provider>
+  );
+const EditableFormRow = Form.create()(EditableRow);
+  
+class EditableCell extends React.Component {
+  getInput = () => {
+    if (this.props.inputType === 'number') {
+      return <InputNumber />;
+    }
+    return <Input />;
+  };
+
+  render() {
+    const {
+      editing,
+      dataIndex,
+      title,
+      inputType,
+      record,
+      index,
+      ...restProps
+    } = this.props;
+    return (
+      <Consumer>
+        {(form) => {
+          const { getFieldDecorator } = form;
+          return (
+            <td {...restProps}>
+              {editing ? (
+                <FormItem style={{ margin: 0 }}>
+                  {getFieldDecorator(dataIndex, {
+                    rules: [{
+                      required: true,
+                      message: `Please Input ${title}!`,
+                    }],
+                    initialValue: record[dataIndex],
+                  })(this.getInput())}
+                </FormItem>
+              ) : restProps.children}
+            </td>
+          );
+        }}
+      </Consumer>
+    );
+  }
+}
+
 
 @connect( (lists) => ({
     lists
@@ -35,17 +90,17 @@ class Products extends Component {
         },
         {
             title: '商品图片',
-            dataIndex: 'product_img',
+            dataIndex: 'img',
             width: '10%',
             editable: true,
-            render: (product_img) => ( <img src={product_img} alt="product_img" style={{width: '34px'}} /> )
+            render: (img) => ( <img src={img} alt="img" style={{width: '34px'}} /> )
         },
-        {
-            title: '商品介绍',
-            dataIndex: 'content',
-            width: '10%',
-            editable: true,
-        },
+        // {
+        //     title: '商品介绍',
+        //     dataIndex: 'content',
+        //     width: '10%',
+        //     editable: true,
+        // },
         {
             title: '商品价格',
             dataIndex: 'price',
@@ -54,13 +109,13 @@ class Products extends Component {
         },
         {
             title: '商品类型',
-            dataIndex: 'product_type',
+            dataIndex: 'class',
             width: '20%',
             editable: true,
         },
         {
             title: '商品销量',
-            dataIndex: 'sale',
+            dataIndex: 'sales',
             width: '10%',
             editable: true,
         },
@@ -72,14 +127,14 @@ class Products extends Component {
                 <div>
                 {editable ? (
                 <span>
-                    <EditableContext.Consumer>
+                    <Consumer>
                         {(form) => (
                             <Button
                                 onClick={() => this.save(form, record.key)}
                                 style={{ marginRight: 8 }}
                             >
                             保存</Button>)}
-                    </EditableContext.Consumer>
+                    </Consumer>
                     <Popconfirm
                         title="Sure to cancel?"
                         onConfirm={() => this.cancel(record.key)}
@@ -116,25 +171,12 @@ class Products extends Component {
         this.setState({ editingKey: key });
     }
     save(form, key) {
-        console.log( form )
-        // form.validateFields((error, row) => {
-        //   if (error) {
-        //     return;
-        //   }
-        //   const newData = [...this.state.data];
-        //   const index = newData.findIndex(item => key === item.key);
-        //   if (index > -1) {
-        //     const item = newData[index];
-        //     newData.splice(index, 1, {
-        //       ...item,
-        //       ...row,
-        //     });
-        //     this.setState({ data: newData, editingKey: '' });
-        //   } else {
-        //     newData.push(row);
-        //     this.setState({ data: newData, editingKey: '' });
-        //   }
-        // });
+        form.validateFields((error, row) => {
+          if (error) {
+            return;
+          }
+          console.log( row )
+        });
       }
     cancel = () => {
         this.setState({ editingKey: '' });
