@@ -1,5 +1,5 @@
 import React, { PureComponent, Fragment } from 'react';
-import { Table, Alert } from 'antd';
+import { Table, Alert, Pagination} from 'antd';
 import styles from './index.less';
 
 function initTotalList(columns) {
@@ -66,6 +66,7 @@ class StandardTable extends PureComponent {
     const {
       data: { list, pagination },
       rowKey,
+      onGetPageData,
       ...rest
     } = this.props;
 
@@ -112,10 +113,12 @@ class StandardTable extends PureComponent {
           rowKey={rowKey || 'key'}
           rowSelection={rowSelection}
           dataSource={list}
-          pagination={paginationProps}
+          // pagination={paginationProps}
           onChange={this.handleTableChange}
+          pagination={false} 
           {...rest}
         />
+         <Pagination defaultCurrent={1} onChange={onGetPageData} total={paginationProps.total} style={{marginTop:"20px",float:"right"}}/>
       </div>
     );
   }

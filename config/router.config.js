@@ -13,14 +13,31 @@ export default [
     path: '/',
     component: '../layouts/BasicLayout',
     Routes: ['src/pages/Authorized'],
-    authority: ['superAdmin'],
+    authority: ['admin'],
     routes: [
-      { path: '/', redirect: '/order/dayOrder' },
+      { path: '/', redirect: '/account/list' },
+      {
+        path: '/account',
+        name: 'accounts',
+        icon: 'user',
+        // component: './Account/index',
+        routes: [
+          {
+            path: '/account/list',
+            name: 'list',
+            component: './Account/index',
+          },
+          {
+            path: '/account/edit',
+            name: 'editList',
+            component: './Account/AccountAdd',
+          },
+        ],
+      },
       {
         path: '/order',
         name: 'order',
         icon: 'read',
-        authority: ['superAdmin'],
         routes: [
           {
             path: '/order/dayOrder',
@@ -34,6 +51,6 @@ export default [
           },
         ],
       },
-    ]
-  }
+    ],
+  },
 ];

@@ -9,5 +9,5 @@ export function getAuthority(str) {
   if (typeof authority === 'string') {
     return [authority];
   }
-  return authority;
+  return authority || ['admin'];
 }
