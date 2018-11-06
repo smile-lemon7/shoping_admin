@@ -3,6 +3,7 @@ import { connect } from 'dva';
 import { Form, Input, Tooltip, Icon, Cascader, Select, Row, Col, Checkbox, Button, AutoComplete, Card} from 'antd';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import { formatMessage, FormattedMessage } from 'umi/locale';
+import { routerRedux } from 'dva/router';
 import { getPageQuery } from '@/utils/utils';
 import styles from './AccountAdd.less';
 const FormItem = Form.Item;
@@ -52,6 +53,10 @@ class AccountAdd extends Component {
     }
     
   }
+  goBack() {
+    const { dispatch } = this.props;
+    dispatch( routerRedux.push(`/account/list`) );
+  }
   render() {
     const { getFieldDecorator } = this.props.form;
     const formItemLayout = {
@@ -100,7 +105,6 @@ class AccountAdd extends Component {
               )}
             </FormItem>
             <FormItem {...submitFormLayout} style={{ marginTop: 32 }}>
-              
               {
                 userId.userId? (<Button type="primary" htmlType="submit">
                   <FormattedMessage id="form.update" />
@@ -109,6 +113,9 @@ class AccountAdd extends Component {
                   <FormattedMessage id="form.submit" />
                 </Button>)
               }
+              <Button type="primary" style={{ marginLeft: 32 }} onClick={() => this.goBack()}>
+                  <FormattedMessage id="form.back" />
+              </Button>
             </FormItem>
           </Form>
         </Card>

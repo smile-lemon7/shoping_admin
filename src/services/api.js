@@ -36,3 +36,11 @@ export async function getAccount(params) {
     method: 'GET',
   });
 }
+
+
+export async function getProducts(params) {
+  const { offset, limit } = params;
+  return request(`/api/products?offset=${offset}&limit=${limit}`, {
+    method: 'GET',
+  });
+}

@@ -117,6 +117,7 @@ class StandardTable extends PureComponent {
           onChange={this.handleTableChange}
           pagination={false} 
           {...rest}
+          scroll={{ x: 1200 }}
         />
          <Pagination defaultCurrent={1} onChange={onGetPageData} total={paginationProps.total} style={{marginTop:"20px",float:"right"}}/>
       </div>

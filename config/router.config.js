@@ -29,10 +29,27 @@ export default [
           },
           {
             path: '/account/edit',
-            name: 'editList',
+            // name: 'editAccount',
             component: './Account/AccountAdd',
           },
         ],
+      },
+      {
+        path: '/products',
+        name: 'products',
+        icon: 'book',
+        routes: [
+          {
+            path: '/products/list',
+            name: 'list',
+            component: './Products/index',
+          },
+          {
+            path: '/products/edit',
+            // name: 'editProduct',
+            component: './Products/ProductAdd',
+          },
+        ]
       },
       {
         path: '/order',

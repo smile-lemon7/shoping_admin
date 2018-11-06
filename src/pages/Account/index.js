@@ -22,11 +22,6 @@ class Accounts extends Component {
       title: 'Account',
       dataIndex: 'account',
     },
-    // {
-    //   title: 'avatar',
-    //   dataIndex: 'avatar',
-    //   renbuder: (avatar) => ( <img src={avatar} alt="avatar" style={{width: '34px'}} /> )
-    // },
     {
       title: 'Password',
       dataIndex: 'password',
@@ -64,7 +59,7 @@ class Accounts extends Component {
       selectedRows: rows,
     });
   };
-  addStaffAccount() {
+  addAccount() {
     const { dispatch } = this.props;
     dispatch( routerRedux.push('/account/edit') );
   }
@@ -92,7 +87,6 @@ class Accounts extends Component {
     }
   };
   onGetPageData = (pageNumber) => {
-      console.log( pageNumber )
     const { dispatch, accounts: {limit} } = this.props;
     dispatch({type:'accounts/getAccounts', payload: {offset: pageNumber-1,limit}});
   }
@@ -116,7 +110,7 @@ class Accounts extends Component {
     return (
         <div> 
           <div className={styles.tableListOperator}>
-            <Button icon="plus" type="primary" onClick={() => this.addStaffAccount()}>新建</Button>
+            <Button icon="plus" type="primary" style={{marginRight: '20px'}} onClick={() => this.addAccount()}>新建</Button>
             {selectedRows.length > 0 && (
               <span>
                 <Dropdown overlay={menu}>

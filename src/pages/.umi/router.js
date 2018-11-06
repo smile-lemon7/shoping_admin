@@ -52,8 +52,28 @@ let routes = [
           },
           {
             "path": "/account/edit",
-            "name": "editList",
             "component": dynamic({ loader: () => import('../Account/AccountAdd'), loading: require('/Users/edz/Desktop/shoping_admin/src/components/PageLoading/index').default }),
+            "exact": true
+          },
+          {
+            "component": () => React.createElement(require('/Users/edz/Desktop/shoping_admin/node_modules/umi-build-dev/lib/plugins/404/NotFound.js').default, { pagesPath: 'src/pages', hasRoutesInConfig: true })
+          }
+        ]
+      },
+      {
+        "path": "/products",
+        "name": "products",
+        "icon": "book",
+        "routes": [
+          {
+            "path": "/products/list",
+            "name": "list",
+            "component": dynamic({ loader: () => import('../Products/index'), loading: require('/Users/edz/Desktop/shoping_admin/src/components/PageLoading/index').default }),
+            "exact": true
+          },
+          {
+            "path": "/products/edit",
+            "component": dynamic({ loader: () => import('../Products/ProductAdd'), loading: require('/Users/edz/Desktop/shoping_admin/src/components/PageLoading/index').default }),
             "exact": true
           },
           {
